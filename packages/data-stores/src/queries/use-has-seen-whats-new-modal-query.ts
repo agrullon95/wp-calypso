@@ -1,6 +1,6 @@
+import apiFetch from '@wordpress/api-fetch';
 import { useCallback } from 'react';
 import { useQuery, useQueryClient, useMutation } from 'react-query';
-import wpcomRequest from 'wpcom-proxy-request';
 
 interface HasSeenWhatsNewModal {
 	hasSeenWhatsNewModal: boolean;
@@ -20,11 +20,7 @@ export const useHasSeenWhatsNewModalQuery = ( siteId: number | null ) => {
 
 	const { data, isLoading } = useQuery< { has_seen_whats_new_modal: boolean } >(
 		queryKey,
-		() =>
-			wpcomRequest( {
-				path: `/sites/${ siteId }/block-editor/has-seen-whats-new-modal`,
-				apiNamespace: 'wpcom/v2',
-			} ),
+		() => apiFetch( { path: `/wpcom/v2/block-editor/has-seen-whats-new-modal` } ),
 		{
 			enabled: !! siteId,
 			refetchOnWindowFocus: false,
@@ -34,11 +30,10 @@ export const useHasSeenWhatsNewModalQuery = ( siteId: number | null ) => {
 	const queryClient = useQueryClient();
 	const mutation = useMutation< HasSeenWhatsNewModalResult, UpdateError, HasSeenWhatsNewModal >(
 		( { hasSeenWhatsNewModal } ) =>
-			wpcomRequest( {
-				path: `/sites/${ siteId }/block-editor/has-seen-whats-new-modal`,
-				apiNamespace: 'wpcom/v2',
-				method: 'post',
-				body: {
+			apiFetch( {
+				path: `/wpcom/v2/block-editor/has-seen-whats-new-modal`,
+				method: 'POST',
+				data: {
 					has_seen_whats_new_modal: hasSeenWhatsNewModal,
 				},
 			} ),

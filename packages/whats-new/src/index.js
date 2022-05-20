@@ -1,9 +1,8 @@
 import { useLocale } from '@automattic/i18n-utils';
+import apiFetch from '@wordpress/api-fetch';
 import { Guide } from '@wordpress/components';
 import { useI18n } from '@wordpress/react-i18n';
 import { useEffect, useState } from 'react';
-import wpcom from 'wpcom';
-import proxyRequest from 'wpcom-proxy-request';
 import WhatsNewPage from './whats-new-page';
 import './style.scss';
 
@@ -14,15 +13,12 @@ const WhatsNewGuide = ( { onClose } ) => {
 
 	// Load What's New list on first site load
 	useEffect( () => {
-		const proxiedWpcom = wpcom();
-		proxiedWpcom.request = proxyRequest;
-		proxiedWpcom.req
-			.get( { path: `/whats-new/list?_locale=${ locale }`, apiNamespace: 'wpcom/v2' } )
-			.then( ( returnedList ) => {
+		apiFetch( { path: `/wpcom/v2/whats-new/announcements?_locale=${ locale }` } ).then(
+			( returnedList ) => {
 				setWhatsNewData( returnedList );
-			} );
-	}, [ locale ] );
-
+			}
+		);
+	} );
 	if ( ! whatsNewData ) {
 		return null;
 	}
