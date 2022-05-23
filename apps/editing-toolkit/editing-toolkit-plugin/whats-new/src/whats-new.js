@@ -13,7 +13,7 @@ import { whatsNewQueryClient } from '../../common/what-new-query-client';
 
 function WhatsNewMenuItem() {
 	const [ showGuide, setShowGuide ] = useState( false );
-	const { setHasSeenWhatsNewModal } = useHasSeenWhatsNewModalQuery( window._currentSiteId );
+	const { setHasSeenWhatsNewModal } = useHasSeenWhatsNewModalQuery();
 
 	const openWhatsNew = () => {
 		setHasSeenWhatsNewModal( true ).finally( () => setShowGuide( true ) );

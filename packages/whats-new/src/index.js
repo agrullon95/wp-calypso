@@ -14,7 +14,7 @@ const WhatsNewGuide = ( { onClose } ) => {
 		apiFetch( { path: `/wpcom/v2/whats-new/announcements` } ).then( ( returnedList ) => {
 			setWhatsNewData( returnedList );
 		} );
-	} );
+	}, [] );
 	if ( ! whatsNewData ) {
 		return null;
 	}

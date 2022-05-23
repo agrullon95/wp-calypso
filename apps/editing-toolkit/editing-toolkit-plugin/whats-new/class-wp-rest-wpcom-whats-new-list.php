@@ -57,6 +57,11 @@ class WP_REST_WPCOM_Whats_New_List extends \WP_REST_Controller {
 		$locale   = $request->get_params()['_locale'];
 		$args     = array( 'method' => 'get' );
 		$endpoint = "whats-new/list?_locale={ $locale }";
+
+		if ( ! method_exists( Client::class, 'wpcom_json_api_request_as_blog' ) ) {
+			return new \WP_Error( 'connection_unavailable', __( 'Jetpack connection client missing', 'full-site-editing' ) );
+		}
+
 		$response = Client::wpcom_json_api_request_as_blog( $endpoint, 'v2', $args, null, 'wpcom' );
 
 		if ( is_wp_error( $response ) ) {
