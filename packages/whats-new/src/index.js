@@ -1,4 +1,3 @@
-import { useLocale } from '@automattic/i18n-utils';
 import apiFetch from '@wordpress/api-fetch';
 import { Guide } from '@wordpress/components';
 import { useI18n } from '@wordpress/react-i18n';
@@ -9,15 +8,12 @@ import './style.scss';
 const WhatsNewGuide = ( { onClose } ) => {
 	const [ whatsNewData, setWhatsNewData ] = useState( null );
 	const __ = useI18n().__;
-	const locale = useLocale();
 
 	// Load What's New list on first site load
 	useEffect( () => {
-		apiFetch( { path: `/wpcom/v2/whats-new/announcements?_locale=${ locale }` } ).then(
-			( returnedList ) => {
-				setWhatsNewData( returnedList );
-			}
-		);
+		apiFetch( { path: `/wpcom/v2/whats-new/announcements` } ).then( ( returnedList ) => {
+			setWhatsNewData( returnedList );
+		} );
 	} );
 	if ( ! whatsNewData ) {
 		return null;
