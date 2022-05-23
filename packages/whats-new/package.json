@@ -41,7 +41,7 @@
 		"@automattic/typography": "workspace:^",
 		"@wordpress/components": "^19.9.0",
 		"@wordpress/react-i18n": "^3.0.4",
-		"@wordpress/api-fetch": "^6.6.0",
+		"@wordpress/api-fetch": "^6.4.0",
 		"wpcom": "workspace:^",
 		"wpcom-proxy-request": "workspace:^"
 	},
