@@ -12,6 +12,10 @@ interface SiteClosureDetails {
 	id: string;
 	name: string;
 }
+interface NewSiteParams {
+	name: string;
+	title: string;
+}
 
 type EndpointVersions = '1' | '1.1' | '1.2' | '1.3';
 interface BearerTokenResponse {
@@ -200,6 +204,29 @@ export class RestAPIClient {
 		};
 
 		return await this.sendRequest( this.getRequestURL( '1.1', '/me/sites' ), params );
+	}
+
+	/**
+	 * Given parameters, create a new site.
+	 */
+	async createSite( newSiteParams: NewSiteParams ): Promise< NewSiteResponse > {
+		const body = {
+			client_id: SecretsManager.secrets.calypsoOauthApplication.client_id,
+			client_secret: SecretsManager.secrets.calypsoOauthApplication.client_secret,
+			blog_name: newSiteParams.name,
+			blog_title: newSiteParams.title,
+		};
+
+		const params: RequestParams = {
+			method: 'post',
+			headers: {
+				Authorization: await this.getAuthorizationHeader( 'bearer' ),
+				'Content-Type': this.getContentTypeHeader( 'json' ),
+			},
+			body: JSON.stringify( body ),
+		};
+
+		return await this.sendRequest( this.getRequestURL( '1.1', '/sites/new' ), params );
 	}
 
 	/**
