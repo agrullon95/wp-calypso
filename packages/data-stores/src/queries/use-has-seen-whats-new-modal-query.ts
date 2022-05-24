@@ -15,14 +15,13 @@ interface UpdateError {
 	error: string;
 }
 
-export const useHasSeenWhatsNewModalQuery = ( siteId: number | null ) => {
+export const useHasSeenWhatsNewModalQuery = () => {
 	const queryKey = 'has-seen-whats-new-modal';
 
 	const { data, isLoading } = useQuery< { has_seen_whats_new_modal: boolean } >(
 		queryKey,
 		() => apiFetch( { path: `/wpcom/v2/block-editor/has-seen-whats-new-modal` } ),
 		{
-			enabled: !! siteId,
 			refetchOnWindowFocus: false,
 		}
 	);

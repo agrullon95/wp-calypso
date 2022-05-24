@@ -9,7 +9,6 @@ import { Icon, captureVideo, desktop, formatListNumbered, video } from '@wordpre
 import { useI18n } from '@wordpress/react-i18n';
 import { useSelector } from 'react-redux';
 import { getUserPurchases } from 'calypso/state/purchases/selectors';
-import { getSelectedSiteId } from 'calypso/state/ui/selectors';
 import NewReleases from './icons/new-releases';
 
 const circle = (
@@ -22,7 +21,7 @@ const HelpCenterMoreResources = () => {
 	const { __ } = useI18n();
 	const [ showWhatsNewDot, setShowWhatsNewDot ] = useState( false );
 
-	const { isBusinessOrEcomPlanUser, siteId } = useSelector( ( state ) => {
+	const { isBusinessOrEcomPlanUser } = useSelector( ( state ) => {
 		const purchases = getUserPurchases( state );
 		const purchaseSlugs = purchases && purchases.map( ( purchase ) => purchase.productSlug );
 
@@ -31,10 +30,9 @@ const HelpCenterMoreResources = () => {
 				purchaseSlugs &&
 				( purchaseSlugs.some( isWpComBusinessPlan ) || purchaseSlugs.some( isWpComEcommercePlan ) )
 			),
-			siteId: getSelectedSiteId( state ),
 		};
 	} );
-	const { data, isLoading, setHasSeenWhatsNewModal } = useHasSeenWhatsNewModalQuery( siteId );
+	const { data, isLoading, setHasSeenWhatsNewModal } = useHasSeenWhatsNewModalQuery();
 	useEffect( () => {
 		if ( ! isLoading && data ) {
 			setShowWhatsNewDot( ! data.has_seen_whats_new_modal );

@@ -17,7 +17,7 @@ function HelpCenterContent() {
 	const show = useSelect( ( select ) => select( 'automattic/help-center' ).isHelpCenterShown() );
 	const { setShowHelpCenter } = useDispatch( 'automattic/help-center' );
 	const [ showHelpIconDot, setShowHelpIconDot ] = useState( false );
-	const { data, isLoading } = useHasSeenWhatsNewModalQuery( window._currentSiteId );
+	const { data, isLoading } = useHasSeenWhatsNewModalQuery();
 	useEffect( () => {
 		if ( ! isLoading && data ) {
 			setShowHelpIconDot( ! data.has_seen_whats_new_modal );

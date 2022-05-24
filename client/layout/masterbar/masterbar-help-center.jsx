@@ -6,8 +6,8 @@ import { setHelpCenterVisible } from 'calypso/state/ui/actions';
 import isHelpCenterVisible from 'calypso/state/ui/selectors/help-center-is-visible';
 import Item from './item';
 
-const MasterbarHelpCenter = ( { siteId } ) => {
-	const { isLoading, data } = useHasSeenWhatsNewModalQuery( siteId );
+const MasterbarHelpCenter = () => {
+	const { isLoading, data } = useHasSeenWhatsNewModalQuery();
 
 	const newItems = ! isLoading && ! data?.has_seen_whats_new_modal;
 

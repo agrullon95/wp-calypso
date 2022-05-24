@@ -38,7 +38,7 @@ const CheckoutMasterbar = ( {
 	const jetpackCheckoutBackUrl = useValidCheckoutBackUrl( siteSlug );
 	const siteId = useSelector( getSelectedSiteId );
 
-	const { isLoading, data } = useHasSeenWhatsNewModalQuery( siteId );
+	const { isLoading, data } = useHasSeenWhatsNewModalQuery();
 
 	const isJetpackCheckout = window.location.pathname.startsWith( '/checkout/jetpack' );
 	const isJetpack = isJetpackCheckout || isJetpackNotAtomic;
