@@ -36,6 +36,7 @@
 		"jetpack-cloud": true,
 		"jetpack/activity-log-sharing": true,
 		"jetpack/agency-dashboard": false,
+		"jetpack-cloud-agency-signup": true,
 		"jetpack/backup-messaging-i3": true,
 		"jetpack/partner-portal-payment": true,
 		"jetpack/pricing-page": true,
