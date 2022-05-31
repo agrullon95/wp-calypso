@@ -8,7 +8,7 @@ type PlansGridVersion = 'current' | 'legacy';
 type PlansComparisonAction = 'show' | 'hide';
 
 // Types to restrict the string arguments passed in. These are fixed sets of strings, so we can be more restrictive.
-export type Plans = 'Free' | 'Pro';
+export type Plans = 'Free' | 'Starter' | 'Pro';
 export type LegacyPlans = 'Free' | 'Personal' | 'Premium' | 'Business' | 'eCommerce';
 export type PlansPageTab = 'My Plan' | 'Plans';
 export type PlanActionButton = 'Manage plan' | 'Upgrade';
@@ -16,6 +16,7 @@ export type PlanActionButton = 'Manage plan' | 'Upgrade';
 const selectors = {
 	// Generic
 	placeholder: `.is-placeholder`,
+	managePlanButton: `div.my-plan-card a:has-text("Manage plan")`,
 
 	// Navigation
 	mobileNavTabsToggle: `button.section-nav__mobile-header`,
@@ -31,6 +32,7 @@ const selectors = {
 	},
 
 	// Overhauled plans view
+	currentPlansGrid: 'div[id="plans"] > table',
 	selectPlanButton: ( type: Plans ) =>
 		`.formatted-header button.button:has-text("${ type }"), tr th button.button:has-text("${ type }")`,
 	planComparisonActionButton: ( action: PlansComparisonAction ) => {
@@ -129,6 +131,17 @@ export class PlansPage {
 		}
 	}
 
+	/**
+	 * Clicks on the "Manage plan" button, visible if the user has a purchased upgrade.
+	 */
+	async managePlan(): Promise< void > {
+		const locator = this.page.locator( selectors.managePlanButton );
+		await Promise.all( [
+			this.page.waitForNavigation( { url: /.*purchases\/subscriptions.*/ } ),
+			locator.click(),
+		] );
+	}
+
 	/* Legacy Plans */
 
 	/**
@@ -137,12 +150,6 @@ export class PlansPage {
 	 * @param {PlansPageTab} targetTab Name of the tab.
 	 */
 	async clickTab( targetTab: PlansPageTab ): Promise< void > {
-		// Plans page against the current WordPress.com Plans do not
-		// require any clicking of navigation tabs.
-		if ( this.version === 'current' ) {
-			return;
-		}
-
 		// If the target tab is already active, short circuit.
 		const currentSelectedLocator = this.page.locator( selectors.activeNavigationTab( targetTab ) );
 		if ( ( await currentSelectedLocator.count() ) > 0 ) {
@@ -152,7 +159,9 @@ export class PlansPage {
 		if ( targetTab === 'My Plan' ) {
 			// User is currently on the Plans tab and going to My Plans.
 			// Wait for the Plans grid to fully render.
-			const plansGridLocator = this.page.locator( selectors.legacyPlansGrid );
+			const plansGridLocator = this.page.locator(
+				`${ selectors.legacyPlansGrid }, ${ selectors.currentPlansGrid }`
+			);
 			await plansGridLocator.waitFor();
 		}
 		if ( targetTab === 'Plans' ) {

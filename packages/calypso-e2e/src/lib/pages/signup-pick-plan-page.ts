@@ -2,7 +2,7 @@ import { Page } from 'playwright';
 import { NewSiteResponse } from '../../rest-api-client';
 import { PlansPage, Plans } from './plans-page';
 
-interface NewSiteDetails {
+export interface NewSiteDetails {
 	id: string;
 	url: string;
 	name: string;
