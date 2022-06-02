@@ -44,6 +44,8 @@ import { handleScroll } from './utils';
 // goofy import for environment badge, which is SSR'd
 import 'calypso/components/environment-badge/style.scss';
 import './style.scss';
+import { ContextExclusionPlugin } from 'webpack';
+import { combineXPosts } from 'calypso/state/reader/streams/utils';
 
 function SidebarScrollSynchronizer() {
 	const isNarrow = useBreakpoint( '<660px' );
@@ -368,6 +370,8 @@ export default withCurrentRoute(
 		].includes( sectionName );
 		const sidebarIsHidden = ! secondary || isWcMobileApp();
 		const chatIsDocked = ! [ 'reader', 'theme' ].includes( sectionName ) && ! sidebarIsHidden;
+
+		console.log( sectionName, currentSection );
 
 		return {
 			masterbarIsHidden,
