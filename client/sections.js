@@ -524,7 +524,7 @@ const sections = [
 	},
 	{
 		name: 'add-ons',
-		paths: [ '/add-ons' ],
+		paths: [ '/add-ons', '/add-ons/[^\\/]+' ],
 		module: 'calypso/my-sites/add-ons',
 		group: 'sites',
 	},
