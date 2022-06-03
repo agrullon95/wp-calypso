@@ -132,5 +132,8 @@ export const jetpackProductUpsell = ( context: PageJS.Context, next: () => void 
 		/>
 	);
 
+	// Hide sidebar
+	context.secondary = null;
+
 	next();
 };
